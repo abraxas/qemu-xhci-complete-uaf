@@ -1,0 +1,20 @@
+name: qemu-xhci-complete-uaf
+
+services:
+  vuln:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: qemu-xhci-complete-uaf:local
+    init: true
+    restart: "no"
+    ports:
+      - "127.0.0.1:18700:18700"
+      - "127.0.0.1:18701:18701"
+    environment:
+      ASAN_OPTIONS: abort_on_error=1:halt_on_error=1:detect_leaks=0:allocator_may_return_null=1:log_path=/work/asan
+      UBSAN_OPTIONS: halt_on_error=0:print_stacktrace=1
+    volumes:
+      - ./work:/work
+    labels:
+      lab: qemu-xhci-complete-uaf
